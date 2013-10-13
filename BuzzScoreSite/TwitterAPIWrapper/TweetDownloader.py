@@ -27,7 +27,7 @@ def download_tweets(search_string, language, count=100):
 
         result = []
         for i, tweet in enumerate(ts.searchTweetsIterable(tso)):
-            if i > count:
+            if i = count:
                 break
             result.append(tweet)
 
