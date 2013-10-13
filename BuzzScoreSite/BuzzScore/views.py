@@ -5,14 +5,13 @@ def hello(request):
     return HttpResponse("Hello world")
 
 def tweets(request, s_str, lang, count):
-    items = download_tweets([s_str], lang, int(count))
-    html = "<html><body> Tweets with string %s in lang %s </br>" % (s_str, lang)
+    downloaded_tweets = download_tweets([s_str], lang, int(count))
+    html = "<html><body> Tweets with string %s in lang %s <br><p>" % (s_str, lang)
 
-    counter = 0
-    for tweet in items:
-        html += "@%s tweeted %s </br>" % (tweet["user"]["screen_name"], tweet["text"])
-        if counter > count:
-            break
+    html += "</p><p>".join(["@%s tweeted %s " % (tweet["user"]['screen_name'], tweet["text"])
+                            for tweet in downloaded_tweets])
 
-    html += "</body></html>"
+    #html += "@%s tweeted %s </br>" % (tweet["user"]["screen_name"], tweet["text"])
+
+    html += "</p></body></html>"
     return HttpResponse(html)
