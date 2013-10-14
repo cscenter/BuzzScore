@@ -1,6 +1,7 @@
 __author__ = 'nikita_kartashov'
 
 import TwitterSearch
+import itertools
 
 CONSUMER_KEY = "qaxwA1MNvx2ilaBQaql4g"
 CONSUMER_SECRET = "ok5l42lywxjEeh460xTy8EMUUQzMkVBhorITv82Yc"
@@ -9,12 +10,23 @@ TOKEN_KEY = "115023328-B3LMKWYXNS86M5YiS7BT8CSAvTFR8E9thUYIzGmd"
 TOKEN_SECRET = "wgcM1iAZPvuSZBogjtEJ3B5VZRCb3vwCnBqqi9EGgA"
 
 
+def preprocess_search_string(search_string):
+    """Returns list containing preprocessed <search_string> for using in net queries"""
+
+    #preprocessing should take place here
+    return [search_string]
+
+
 def download_tweets(search_string, language, count=100):
+    """Returns list of <count> tweets containing <search_string>"""
+
+    search_string = preprocess_search_string(search_string)
+
     try:
         tso = TwitterSearch.TwitterSearchOrder()
         tso.setKeywords(search_string)
         tso.setLanguage(language)
-        tso.setCount(100)
+        #removed setCount, because default value is 100 and max value is also 100 (the bigger the better)
         tso.setIncludeEntities(False)
 
         # create a TwitterSearch object with our secret tokens
@@ -25,12 +37,15 @@ def download_tweets(search_string, language, count=100):
             access_token_secret=TOKEN_SECRET
         )
 
+        return list(itertools.islice(ts.searchTweetsIterable(tso), 0, count))
+
+        """
         result = []
         for i, tweet in enumerate(ts.searchTweetsIterable(tso)):
             if i == count:
                 break
             result.append(tweet)
 
-        return result
+        return result"""
     except TwitterSearch.TwitterSearchException as e:
         print e
