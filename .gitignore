@@ -34,3 +34,7 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# User settings
+.idea/workspace.xml
+.idea/tasks.xml
