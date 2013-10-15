@@ -2,6 +2,7 @@ __author__ = 'nikita_kartashov'
 
 import TwitterSearch
 import itertools
+import urllib
 
 CONSUMER_KEY = "qaxwA1MNvx2ilaBQaql4g"
 CONSUMER_SECRET = "ok5l42lywxjEeh460xTy8EMUUQzMkVBhorITv82Yc"
@@ -13,7 +14,7 @@ TOKEN_SECRET = "wgcM1iAZPvuSZBogjtEJ3B5VZRCb3vwCnBqqi9EGgA"
 def preprocess_search_string(search_string):
     """Returns list containing preprocessed <search_string> for using in net queries"""
 
-    #preprocessing should take place here
+    search_string = urllib.quote_plus(search_string)
     return [search_string]
 
 
@@ -38,14 +39,6 @@ def download_tweets(search_string, language, count=100):
         )
 
         return list(itertools.islice(ts.searchTweetsIterable(tso), 0, count))
-
-        """
-        result = []
-        for i, tweet in enumerate(ts.searchTweetsIterable(tso)):
-            if i == count:
-                break
-            result.append(tweet)
-
-        return result"""
+    
     except TwitterSearch.TwitterSearchException as e:
         print e
