@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
-from BuzzScore.views import hello
-from BuzzScore.views import tweets
+from buzz_score.views import hello
+from buzz_score.views import tweets
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin

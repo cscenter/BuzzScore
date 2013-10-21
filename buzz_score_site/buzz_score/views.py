@@ -1,8 +1,10 @@
 from django.http import HttpResponse
-from TwitterAPIWrapper.TweetDownloader import download_tweets
+from twitter.tweet_downloader import download_tweets
+
 
 def hello(request):
     return HttpResponse("Hello world")
+
 
 def tweets(request, s_str, lang, count):
     downloaded_tweets = download_tweets(s_str, lang, int(count))
