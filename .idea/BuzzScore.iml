@@ -3,15 +3,15 @@
   <component name="FacetManager">
     <facet type="django" name="Django">
       <configuration>
-        <option name="rootFolder" value="$MODULE_DIR$" />
-        <option name="settingsModule" value="BuzzScoreSite/settings.py" />
+        <option name="rootFolder" value="$MODULE_DIR$/buzz_score_site" />
+        <option name="settingsModule" value="settings.py" />
         <option name="manageScript" value="manage.py" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 2.7.5 virtualenv at ~/BuzzScoreSiteAndAPI_Environment (1)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
@@ -19,11 +19,6 @@
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
-    <option name="TEMPLATE_FOLDERS">
-      <list>
-        <option value="$MODULE_DIR$/templates" />
-      </list>
-    </option>
   </component>
   <component name="TestRunnerService">
     <option name="projectConfiguration" value="Unittests" />
