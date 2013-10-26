@@ -5,9 +5,9 @@
 {% block content %}
 <div>
     Welcome to BuzzScore, test our brand new Emotional Evaluation!<br>
-    <form action="/tweets/" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
+    <form action="/tweets" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
 </div>
 {% endblock content %}

@@ -1,31 +1,23 @@
 from django.http import HttpResponse
 from django.core.context_processors import csrf
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 
 from forms import EmotionalEvaluationForm
-from buzz_score_site.twitter.tweet_downloader import download_tweets
-
-from os.path import abspath
+from twitter.tweet_downloader import download_tweets
 
 
 def index(request):
-    args = {'form': EmotionalEvaluationForm()}
-    args.update(csrf(request))
-    return render_to_response(abspath('buzz_score/templates/index.html'), args)
+    form = EmotionalEvaluationForm()
+    return render(request, 'index.html', {'form': form})
 
 
 def tweets(request):
-    if request.method == "POST":
-        form = EmotionalEvaluationForm(request.POST)
-        if form.is_valid():
-            post = form.cleaned_data
-            downloaded_tweets = download_tweets(post['search_query'],
-                                                post['search_language'],
-                                                int(post['number_of_results']))
-            return render_to_response(abspath('buzz_score/templates/tweets.html'), {'tweets': downloaded_tweets})
-        else:
-            return render_to_response(abspath('buzz_score/templates/error.html'),
-                                      {'error_text': "The form was filled incorrectly"})
+    form = EmotionalEvaluationForm(request.POST)
+    if form.is_valid():
+        post = form.cleaned_data
+        downloaded_tweets = download_tweets(post['search_query'],
+                                            post['search_language'],
+                                            int(post['number_of_results']))
+        return render(request, 'tweets.html', {'tweets': downloaded_tweets})
     else:
-        return render_to_response(abspath('buzz_score/templates/error.html'),
-                                      {'error_text': "The form was filled"})
+        return render(request, 'index.html', {'form': form})
