@@ -34,10 +34,11 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-TwitterAPIWrapper/dev.db
+buzz_score_site/dev.db
 
 # User settings
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/vcs.xml
 .idea/misc.xml
+.idea/BuzzScore.iml
