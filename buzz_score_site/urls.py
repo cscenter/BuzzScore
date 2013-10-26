@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, url
-from buzz_score.views import hello
 from buzz_score.views import tweets
 from buzz_score.views import index
 
