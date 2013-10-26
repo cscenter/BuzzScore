@@ -15,16 +15,24 @@ def index(request):
     return render(request, 'index.html', {'form': form})
 
 
+def tweets_ajax(request):
+    if not request.is_ajax():
+        form = EmotionalEvaluationForm()
+        return render(request, 'index.html', {'form': form})
+    session_id = request.COOKIES['JSESSIONID']
+    downloaded_tweets = storage[session_id]
+    if not downloaded_tweets:
+        form = EmotionalEvaluationForm()
+        return render(request, 'index.html', {'form': form})
+    items = []
+    for i in range(ITEMS_PER_PAGE):
+        items.append(downloaded_tweets.next())
+    storage[session_id] = downloaded_tweets
+    return render(request, 'tweets_page.html', {'tweets': items,
+                                                'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
+
+
 def tweets(request):
-    if request.is_ajax():
-        session_id = request.COOKIES['JSESSIONID']
-        downloaded_tweets = storage[session_id]
-        items = []
-        for i in range(ITEMS_PER_PAGE):
-            items.append(downloaded_tweets.next())
-        storage[session_id] = downloaded_tweets
-        return render(request, 'tweets_page.html', {'tweets': items,
-                                                    'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
     form = EmotionalEvaluationForm(request.POST)
     if form.is_valid():
         post = form.cleaned_data
