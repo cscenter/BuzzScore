@@ -7,7 +7,7 @@ from twitter.tweet_downloader import download_tweets
 # Later will be replaced with calls to memcache
 storage = {}
 
-ITEMS_PER_PAGE = 21
+ITEMS_PER_PAGE = 20
 
 
 def index(request):
@@ -37,8 +37,3 @@ def tweets(request):
                                                      'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
     else:
         return render(request, 'index.html', {'form': form})
-
-
-def more_tweets(request, page):
-    print page, "lolz"
-    return render(request, 'error.html', {'error_text': 'lolz'})
