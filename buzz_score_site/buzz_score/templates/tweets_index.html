@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %} BuzzScore - Twittter Search Results {% endblock title %}
+
+{% block content %}
+    {% block scripts %}
+        {{ block.super }}
+        <script type="application/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+        <script src="{{ STATIC_URL }}js/pagination.js"></script>
+        <script>$(document).ready(function() {
+            $.paginate();
+        })</script>
+    {% endblock %}
+    {% include "tweets_page.html" %}
+{% endblock %}

@@ -3,9 +3,9 @@
 {% block title %} BuzzScore - Welcome {% endblock title %}
 
 {% block content %}
-<div>
+<div xmlns="http://www.w3.org/1999/html">
     Welcome to BuzzScore, test our brand new Emotional Evaluation!<br>
-    <form action="/tweets" method="post">{% csrf_token %}
+    <form action="/tweets/" method="post">{% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Submit" />
     </form>

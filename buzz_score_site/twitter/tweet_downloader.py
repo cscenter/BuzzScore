@@ -18,7 +18,7 @@ def preprocess_search_string(search_string):
     return [search_string]
 
 
-def download_tweets(search_string, language, count=100):
+def download_tweets(search_string, language):
     """Returns list of <count> tweets containing <search_string>"""
 
     search_string = preprocess_search_string(search_string)
@@ -38,7 +38,7 @@ def download_tweets(search_string, language, count=100):
             access_token_secret=TOKEN_SECRET
         )
 
-        return list(itertools.islice(ts.searchTweetsIterable(tso), 0, count))
+        return ts.searchTweetsIterable(tso)
     
     except TwitterSearch.TwitterSearchException as e:
         print e

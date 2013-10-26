@@ -11,4 +11,3 @@ MAX_RESULTS = 1000
 class EmotionalEvaluationForm (forms.Form):
     search_query = forms.CharField(MAX_QUERY_LENGTH, MIN_QUERY_LENGTH)
     search_language = forms.ChoiceField(widget=forms.RadioSelect, choices=SUPPORTED_LANGUAGES)
-    number_of_results = forms.CharField() #DecimalField(MAX_RESULTS, localize=False)
