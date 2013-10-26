@@ -39,3 +39,5 @@ TwitterAPIWrapper/dev.db
 # User settings
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/vcs.xml
+.idea/misc.xml
