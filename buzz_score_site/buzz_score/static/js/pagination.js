@@ -14,7 +14,7 @@
                 var link = $(this);
                 var url = getUrl(link);
                 $.get(url, null, function (html) {
-                    link.before(html)
+                    link.before(html);
                     link.remove();
                 });
                 return false;
