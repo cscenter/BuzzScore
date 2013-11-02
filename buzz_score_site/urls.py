@@ -1,16 +1,12 @@
 from django.conf.urls import patterns, url
-from buzz_score.views import tweets
-from buzz_score.views import tweets_ajax
-from buzz_score.views import index
-
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', index),
-    url(r'^tweets/$', tweets),
-    url(r'^tweets_ajax/$', tweets_ajax),
+    url(r'^$', 'buzz_score.views.index'),
+    url(r'^tweets/$', 'buzz_score.views.tweets'),
+    url(r'^tweets_ajax/$', 'buzz_score.views.tweets_ajax'),
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )

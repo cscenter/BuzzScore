@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from itertools import islice
 
 from forms import EmotionalEvaluationForm
-from twitter.tweet_downloader import download_tweets
+from twitter.TweetDownloader import TweetDownloader, TweetChunkIterator
 
 # Later will be replaced with calls to memcache
 storage = {}
@@ -24,10 +23,7 @@ def tweets_ajax(request):
     if not downloaded_tweets:
         form = EmotionalEvaluationForm()
         return render(request, 'index.html', {'form': form})
-    items = []
-    for i in range(ITEMS_PER_PAGE):
-        items.append(downloaded_tweets.next())
-    storage[session_id] = downloaded_tweets
+    items = downloaded_tweets.get_chunk()
     return render(request, 'tweets_page.html', {'tweets': items,
                                                 'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
 
@@ -36,11 +32,10 @@ def tweets(request):
     form = EmotionalEvaluationForm(request.POST)
     if form.is_valid():
         post = form.cleaned_data
-        downloaded_tweets = download_tweets(post['search_query'],
-                                            post['search_language'])
+        downloaded_tweets = TweetDownloader.download_tweets(post['search_query'], post['search_language'])
         session_id = request.COOKIES['JSESSIONID']
-        items = list(islice(downloaded_tweets, ITEMS_PER_PAGE))
-        storage[session_id] = downloaded_tweets
+        storage[session_id] = TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE)
+        items = storage[session_id].get_chunk()
         return render(request, 'tweets_index.html', {'tweets': items,
                                                      'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
     else:
