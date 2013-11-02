@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css" />
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}content/css/base.css" rel="stylesheet" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}BuzzScore - Index{% endblock %}</title>
 </head>
 
 <body>
-    {% block scripts %}{% endblock %}
+    <script src="https://code.jquery.com/jquery.js"></script>
+
     <div id="header">
     </div>
-    <div id="content">
-        {% block content %}{% endblock %}
+    <div id="wrap">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
     </div>
     <div id="footer">
-        <div id="stats">
-            <!-- STATS: This page was generated in: %(total_time).2fs ENDSTATS -->
+        <div class="container">
+            <div id="stats">
+                <!-- STATS: This page was generated in: %(total_time).2fs ENDSTATS -->
+            </div>
+            © Copyright University of Russian Academy of Sciences {% now "Y" %}
         </div>
-        © Copyright University of Russian Academy of Sciences {% now "Y" %}
     </div>
+    {% block scripts %}
+    {% endblock %}
+
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
