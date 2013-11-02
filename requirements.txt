@@ -1,7 +1,13 @@
 Django==1.5
-TwitterSearch==0.78.3
+nltk==2.0.4
+numpy==1.8.0
 oauthlib==0.6.0
-requests==2.0.0
-requests-oauthlib==0.4.0
-wsgiref==0.1.2
 python-memcached==1.53
+pyyaml==3.10
+requests==2.0.0
+requests-oauthlib==0.4
+scikit-learn==0.14.1
+scipy==
+TwitterSearch==0.78.3
+wsgiref==0.1.2
+
