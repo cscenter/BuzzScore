@@ -3,13 +3,17 @@ from django.shortcuts import render
 from forms import EmotionalEvaluationForm
 from twitter.TweetDownloader import TweetDownloader, TweetChunkIterator
 
+import uuid
+
 # Later will be replaced with calls to memcache
 storage = {}
 
 ITEMS_PER_PAGE = 20
-
+#Sessions expire in 5 minutes
+SESSION_EXPIRY_TIME = 300
 
 def index(request):
+    request.session.set_expiry(SESSION_EXPIRY_TIME)
     form = EmotionalEvaluationForm()
     return render(request, 'index.html', {'form': form})
 
@@ -17,7 +21,7 @@ def tweets_ajax(request):
     if not request.is_ajax():
         form = EmotionalEvaluationForm()
         return render(request, 'index.html', {'form': form})
-    session_id = request.COOKIES['JSESSIONID']
+    session_id = request.session.session_key
     try:
         downloaded_tweets = storage[session_id]
 
@@ -35,7 +39,7 @@ def tweets(request):
         post = form.cleaned_data
         downloaded_tweets = TweetDownloader.download_tweets(post['search_query'], post['search_language'])
         try:
-            session_id = request.COOKIES['JSESSIONID']
+            session_id = request.session.session_key
             storage[session_id] = TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE)
             items = storage[session_id].get_chunk()
             return render(request, 'tweets_index.html', {'tweets': items,
