@@ -9,13 +9,9 @@
         <script src="{{ STATIC_URL }}content/js/spin.min.js"></script>
         <script src="{{ STATIC_URL }}content/js/jquery.spin.js"></script>
         <script src="{{ STATIC_URL }}content/js/spinner_scripts.js"></script>
-        <script src="{{ STATIC_URL }}content/js/tweet_display_options_scripts.js"></script>
-        <script>
-            $(document).ready(function() {
-                $.paginate();
-            });
-        </script>
+        <script>$(document).ready(function() {
+            $.paginate();
+        })</script>
     {% endblock %}
-    <input type="button" name="toggleRetweetsButton" value="Toggle Retweets" onclick="toggleRetweets()">
     {% include "tweets_page.html" %}
 {% endblock %}
