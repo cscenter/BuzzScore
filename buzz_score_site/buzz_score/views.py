@@ -4,6 +4,11 @@ from forms import EmotionalEvaluationForm
 from twitter.TweetDownloader import TweetDownloader, TweetChunkIterator
 from models import Tweet
 
+from functools import partial
+from itertools import ifilterfalse
+from spam.spam_classifier import is_spam
+
+
 # Later will be replaced with calls to memcached
 storage = {}
 
@@ -38,7 +43,10 @@ def tweets(request):
     form = EmotionalEvaluationForm(request.POST)
     if form.is_valid():
         post = form.cleaned_data
-        downloaded_tweets = TweetDownloader.download_tweets(post['search_query'], post['search_language'])
+        query = post['search_query']
+        language = post['search_language']
+        downloaded_tweets = TweetDownloader.download_tweets(query, language)
+        downloaded_tweets = ifilterfalse(partial(is_spam, lang=language), downloaded_tweets)
         try:
             session_id = request.session.session_key
             storage[session_id] = TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE)
