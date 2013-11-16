@@ -6,6 +6,9 @@
     {% block scripts %}
         {{ block.super }}
         <script src="{{ STATIC_URL }}content/js/pagination.js"></script>
+        <script src="{{ STATIC_URL }}content/js/spin.js"></script>
+        <script src="{{ STATIC_URL }}content/js/jquery.spin.js"></script>
+        <script src="{{ STATIC_URL }}content/js/spinner_scripts.js"></script>
         <script>$(document).ready(function() {
             $.paginate();
         })</script>

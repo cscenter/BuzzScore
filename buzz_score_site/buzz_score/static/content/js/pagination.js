@@ -11,9 +11,11 @@
 
         return this.each(function() {
             $(this).on('click', moreSelector, function(e) {
+                displaySpinner();
                 var link = $(this);
                 var url = getUrl(link);
                 $.get(url, null, function (html) {
+                    hideSpinner();
                     link.before(html);
                     link.remove();
                 });

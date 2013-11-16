@@ -3,10 +3,19 @@
 {% block title %} BuzzScore - Welcome {% endblock title %}
 
 {% block content %}
+    <script src="{{ STATIC_URL }}content/js/spin.min.js"></script>
+    <script src="{{ STATIC_URL }}content/js/jquery.spin.js"></script>
+    <script src="{{ STATIC_URL }}content/js/spinner_scripts.js"></script>
+    <script type="text/javascript">
+        $(window).on('unload', function() {
+            hideSpinner();
+        })
+    </script>
+
     <div class="col-md-12">
         <h2>Welcome to BuzzScore!</h2>
         <h4>Test our brand new Sentiment Analysis!</h4>
-        <form action="/tweets/" method="post">{% csrf_token %}
+        <form action="/tweets/" onsubmit="displaySpinner()" method="post">{% csrf_token %}
             <p>
                 <label for="id_search_query">Search query:</label>
                 <input id="id_search_query" maxlength="100" name="search_query" type="text" />
@@ -14,16 +23,16 @@
             </p>
             <p>
                 <label for="id_search_language_0">Search language:</label>
-                <ul class="list-unstyled">
-                    <li>
-                        <label for="id_search_language_0">
-                            <input id="id_search_language_0" name="search_language" type="radio" value="en" checked/> en</label>
-                    </li>
-                    <li>
-                        <label for="id_search_language_1">
-                            <input id="id_search_language_1" name="search_language" type="radio" value="ru" /> ru</label>
-                    </li>
-                </ul>
+            <ul class="list-unstyled">
+                <li>
+                    <label for="id_search_language_0">
+                        <input id="id_search_language_0" name="search_language" type="radio" value="en" checked/> en</label>
+                </li>
+                <li>
+                    <label for="id_search_language_1">
+                        <input id="id_search_language_1" name="search_language" type="radio" value="ru" /> ru</label>
+                </li>
+            </ul>
             </p>
         </form>
     </div>
