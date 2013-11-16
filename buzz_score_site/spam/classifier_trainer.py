@@ -39,7 +39,7 @@ def main():
 
     classifier = NaiveBayesClassifier.train(training_ham + training_spam)
 
-    with open('classifier.pkl', 'wb') as dst:
+    with open('classifier_en.pkl', 'wb') as dst:
         cPickle.dump(classifier, dst)
 
     print 'Test Spam accuracy: %f' % classify.accuracy(classifier, test_spam)
