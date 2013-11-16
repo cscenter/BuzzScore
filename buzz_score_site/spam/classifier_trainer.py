@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # coding: utf8
 
+import os
 import json
 import random
 import cPickle
@@ -30,8 +31,8 @@ def load_dataset(label, path, shuffle=False):
 def main():
     src_dir = '../../data_set/spam_analysis/en/'
 
-    spam = load_dataset('spam', src_dir + 'spam.json', True)
-    ham = load_dataset('ham', src_dir + 'ham.json', True)
+    spam = load_dataset('spam', os.path.join(src_dir, 'spam.json'), True)
+    ham = load_dataset('ham', os.path.join(src_dir, 'ham.json'), True)
     training_spam = spam[:11500]
     training_ham = ham[:11500]
     test_spam = spam[1000:]
