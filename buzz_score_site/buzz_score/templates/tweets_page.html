@@ -1,6 +1,4 @@
 {% for tweet in tweets %}
-    <p>
-        @{{ tweet.user.screen_name }} tweeted {{ tweet.text }}
-    </p>
+    {{ tweet.as_html | safe }}
 {% endfor %}
 <a id='more-link' href='/tweets_ajax/'>more</a>
