@@ -68,19 +68,23 @@ class TweetDownloader:
 
 
 class TweetChunkIterator:
+    _start = 0
+    _chunk_size = 0
+    _iterable = 0
+
     def __init__(self, tweets_iterable, chunk_size):
-        self.iterable = iter(tweets_iterable)
-        self.chunk_size = chunk_size
-        self.start = 0
+        self._iterable = iter(tweets_iterable)
+        self._chunk_size = chunk_size
+        self._start = 0
 
     def __iter__(self):
-        return self.iterable
+        return self._iterable
 
     def next(self):
-        return next(self.iterable)
+        return next(self._iterable)
 
     def get_chunk(self):
         """Returns a list of <self.chunk_size> sized chunks of tweets extracted from <self.iterable>"""
-        result = list(itertools.islice(self.iterable, self.start, self.start + self.chunk_size))
-        self.start += self.chunk_size
+        result = list(itertools.islice(self._iterable, self._start, self._start + self._chunk_size))
+        self._start += self._chunk_size
         return result
