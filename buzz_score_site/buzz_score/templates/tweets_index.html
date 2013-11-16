@@ -15,7 +15,25 @@
                 $.paginate();
             });
         </script>
+        <link href="{{ STATIC_URL }}content/css/tweet.css" rel="stylesheet" media="screen">
+
+        <script type="text/javascript">
+            function setToPositive() {
+                $('.tweet').each(function() {
+                    $(this).removeClass('positive negative').addClass('positive')
+                });
+            }
+
+            function setToNegative() {
+                $('.tweet').each(function() {
+                    $(this).removeClass('positive negative').addClass('negative')
+                });
+            }
+        </script>
+
     {% endblock %}
     <input type="button" name="toggleRetweetsButton" value="Toggle Retweets" onclick="toggleRetweets()">
+    <input type="button" name="setAllToPositiveButton" value="Set Positive" onclick="setToPositive()"><br>
+    <input type="button" name="setAllToNegativeButton" value="Set Negative" onclick="setToNegative()">
     {% include "tweets_page.html" %}
 {% endblock %}

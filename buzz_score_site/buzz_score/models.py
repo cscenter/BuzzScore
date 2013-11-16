@@ -12,10 +12,14 @@ class Tweet:
         self._tweet_dict = tweet_dict
 
     def as_html(self):
-        output = '<div class="tweet"' \
+        tweet_class = 'tweet '
+        if 'sentiment' in self._tweet_dict.keys():
+            tweet_class += self._tweet_dict['sentiment']
+        output = '<div class="%s"' \
                  'favorited="%s" retweet_count="%s" is_retweet="%r">' \
                  '<p> @%s tweeted %s </p>' \
-                 '</div>' % (self._tweet_dict['favorited'],
+                 '</div>' % (tweet_class,
+                             self._tweet_dict['favorited'],
                              self._tweet_dict['retweet_count'],
                              'retweeted_status' in self._tweet_dict.keys(),
                              self._tweet_dict['user']['screen_name'],

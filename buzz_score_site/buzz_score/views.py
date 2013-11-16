@@ -25,7 +25,6 @@ def index(request):
 
 def tweets_ajax(request):
     if not request.is_ajax():
-        print 'lalz'
         form = EmotionalEvaluationForm()
         return render(request, 'index.html', {'form': form})
     session_id = request.session.session_key
@@ -41,6 +40,7 @@ def tweets_ajax(request):
 
 def tweets(request):
     form = EmotionalEvaluationForm(request.POST)
+    print(hasattr(form, 'is_valid'))
     if form.is_valid():
         post = form.cleaned_data
         query = post['search_query']

@@ -1,0 +1,10 @@
+.tweet {
+  background-color: lightgrey;
+}
+.tweet.positive {
+    background-color: lightgreen;
+}
+
+.tweet.negative {
+    background-color: lightcoral;
+}
