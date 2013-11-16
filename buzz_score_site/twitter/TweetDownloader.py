@@ -27,7 +27,7 @@ class TweetDownloader:
 
     @staticmethod
     def download_tweets(search_string, language):
-        """Returns list of <count> tweets containing <search_string>"""
+        """Returns list of tweets containing <search_string>, <language> should be like 'en' or 'ru' """
 
         search_string = TweetDownloader.preprocess_search_string(search_string)
         try:
