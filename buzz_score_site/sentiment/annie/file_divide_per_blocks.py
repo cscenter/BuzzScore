@@ -1,12 +1,10 @@
-__author__ = 'annie'
-
-from buzz_score_site.settings import DATASET_ROOT
 import os
+from buzz_score_site.settings import DATASET_ROOT
 
-path_neg = os.path.join(DATASET_ROOT, 'sentiment_analysis/en/rt-polaritydata/rt-polarity.neg')
-path_pos = os.path.join(DATASET_ROOT, 'sentiment_analysis/en/rt-polaritydata/rt-polarity.pos')
+path_neg = os.path.sep(DATASET_ROOT, 'sentiment_analysis', 'en', 'rt-polaritydata', 'rt-polarity', 'neg')
+path_pos = os.path.sep(DATASET_ROOT, 'sentiment_analysis', 'en', 'rt-polaritydata', 'rt-polarity', 'pos')
+
 f = open(path_pos)
-
 
 i = 0
 k = 1
@@ -21,4 +19,5 @@ for line in f:
         ff = open(fout + str(k), 'w')
     ff.write(line)
     i += 1
+f.close()
 ff.close()
