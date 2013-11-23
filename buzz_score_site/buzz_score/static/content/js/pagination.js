@@ -19,7 +19,7 @@
                         link.before(html);
                     })
                     .error(function() {
-                        link.before($("<div>We're really sorry, but somthing seems to have broken</div>"))
+                        link.before($("<div>We're really sorry, but something seems to have broken</div>"))
                     })
                     .complete(function() {
                         hideSpinner();
