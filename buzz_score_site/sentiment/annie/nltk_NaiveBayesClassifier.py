@@ -9,10 +9,10 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
-from buzz_score_site.settings import APPLICATION_ROOT
+from buzz_score_site.settings import DATASET_ROOT
 
-path_pos = os.path.join(APPLICATION_ROOT, '../data_set/sentiment_analysis/ru/pos')
-path_neg = os.path.join(APPLICATION_ROOT, '../data_set/sentiment_analysis/ru/neg')
+path_pos = os.path.join(DATASET_ROOT, 'sentiment_analysis/ru/pos')
+path_neg = os.path.join(DATASET_ROOT, 'sentiment_analysis/ru/neg')
 
 def gen_list_for_test(name_file):
     list_dict_tweet = []
@@ -49,7 +49,6 @@ classifier.train(features)
 l_pos = np.array(classifier.batch_classify(pos[scope_for_learning:]))
 l_neg = np.array(classifier.batch_classify(neg[scope_for_learning:]))
 
-#print(''.format())
 
 print(len(pos))
 print("Confusion matrix:\n%d\t%d\n%d\t%d" % (
