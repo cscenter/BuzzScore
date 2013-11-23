@@ -1,7 +1,10 @@
 __author__ = 'annie'
 
-path_neg = '/Users/annie/PycharmProjects/BuzzScore/data_set/sentiment_analysis/en/rt-polaritydata/rt-polarity.neg'
-path_pos = '/Users/annie/PycharmProjects/BuzzScore/data_set/sentiment_analysis/en/rt-polaritydata/rt-polarity.pos'
+from buzz_score_site.settings import DATASET_ROOT
+import os
+
+path_neg = os.path.join(DATASET_ROOT, 'sentiment_analysis/en/rt-polaritydata/rt-polarity.neg')
+path_pos = os.path.join(DATASET_ROOT, 'sentiment_analysis/en/rt-polaritydata/rt-polarity.pos')
 f = open(path_pos)
 
 
