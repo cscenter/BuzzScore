@@ -1,23 +1,26 @@
 import os
+
+import numpy as np
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
-import numpy as np
 from sklearn.naive_bayes import BernoulliNB
+from django.conf import settings
 
-MODEL_PATH = "sentiment_classifier.pkl"
-VECTORIZER_PATH = "vectorizer.pkl"
-BASE_DIR = "../../data_set/sentiment_analysis/en/rt-polaritydata"
+BASE_DIR = os.path.join(settings.DATASET_ROOT,
+                        "sentiment_analysis/en/rt-polaritydata")
+MODEL_PATH = os.path.join(settings.CLASSIFIER_ROOT, "sentiment_classifier.pkl")
+VECTORIZER_PATH = os.path.join(settings.CLASSIFIER_ROOT, "vectorizer.pkl")
 
 
 def go(sentences):
     """ Give sentences, sentences is list
-        Return list of pairs: (sentence, label)
+        Return labels [ints]
     """
     classifier = joblib.load(MODEL_PATH)
     dv = joblib.load(VECTORIZER_PATH)
     X = dv.transform(sentences)
     labels = list(classifier.predict(X))
-    return [(sentences, int(label)) for label in labels]
+    return map(int, labels)
 
 
 def save_trained():

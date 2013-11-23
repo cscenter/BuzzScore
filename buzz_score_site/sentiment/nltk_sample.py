@@ -8,7 +8,7 @@ from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
-DATA_PATH = '../../data_set/sentiment_analysis/en/rt-polaritydata'
+DATA_PATH = '../../datasets/sentiment_analysis/en/rt-polaritydata'
 
 
 def word_feats(words):

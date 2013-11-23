@@ -29,7 +29,7 @@ def load_dataset(label, path, shuffle=False):
 
 
 def main():
-    src_dir = '../../data_set/spam_analysis/en/'
+    src_dir = '../../datasets/spam_analysis/en/'
 
     spam = load_dataset('spam', os.path.join(src_dir, 'spam.json'), True)
     ham = load_dataset('ham', os.path.join(src_dir, 'ham.json'), True)

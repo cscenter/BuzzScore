@@ -29,7 +29,7 @@ def prepare_dataset(base_dir):
 
 if __name__ == "__main__":
 
-    X, y = prepare_dataset("../../data_set/sentiment_analysis/en/rt-polaritydata")
+    X, y = prepare_dataset("../../datasets/sentiment_analysis/en/rt-polaritydata")
     X_train, X_test, y_train, y_test = cross_validation.train_test_split(
         X, y, test_size=.4)
 
