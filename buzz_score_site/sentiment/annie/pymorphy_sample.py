@@ -1,5 +1,4 @@
 # coding=utf-8
-__author__ = 'annie'
 
 from pymorphy2 import MorphAnalyzer
 
