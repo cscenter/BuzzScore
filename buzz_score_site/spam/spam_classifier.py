@@ -3,15 +3,15 @@
 
 import os
 from cPickle import load
-from settings import APPLICATION_ROOT as root
+from settings import CLASSIFIER_ROOT as ROOT
 from feature_extractor import extract_features
 
 
-with open(os.path.join(root, 'spam/classifier_en.pkl'), 'rb') as src:
-    classifier_en = load(src)
+with open(os.path.join(ROOT, 'spam_classifier_en.pkl'), 'rb') as src:
+    CLASSIFIER_EN = load(src)
 
 
 def is_spam(tweet, lang):
     if lang != 'en':
         return False
-    return 'spam' == classifier_en.classify(extract_features(tweet['text']))
+    return 'spam' == CLASSIFIER_EN.classify(extract_features(tweet['text']))

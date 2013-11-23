@@ -8,32 +8,27 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import wordpunct_tokenize
 
 
-stopwords = sw.words('english')
-stopwords.extend(['ll', 've'])
+STOPWORDS = sw.words('english')
+STOPWORDS_EXTENSION = ['ll', 've']
+STOPWORDS.extend(STOPWORDS_EXTENSION)
 
-at_re = re.compile(r'@\w+?')
-link_re = re.compile(r'<a.*?>.*?</a>')
-entity_re = re.compile(r'&[a-z]+|(?:#\d+);')
+USERNAME_RE = re.compile(r'@\w+?')
+HTML_LINK_RE = re.compile(r'<a.*?>.*?</a>')
+ENTITY_RE = re.compile(r'&[a-z]+|(?:#\d+);')
 
-url_re = re.compile(r'(?i)(?:https?://)?(?:www.)?'
-                    r'(?:(?:[a-z0-9-]+\.)+[a-z]{2,6})'
-                    r'/?\S*')
-
-lemmatizer = WordNetLemmatizer()
+RAW_URL_RE = re.compile(r'(?i)(?:https?://)?(?:www.)?'
+                        r'(?:(?:[a-z0-9-]+\.)+[a-z]{2,6})'
+                        r'/?\S*')
 
 
-def extract_features(msg):
-    msg = clean_html(link_re.sub('', msg))
+def extract_features(message):
+    message = clean_html(HTML_LINK_RE.sub('', message))
 
-    msg = url_re.sub('', msg)
-    msg = at_re.sub('', msg)
-    msg = entity_re.sub('', msg).lower()
+    message = RAW_URL_RE.sub('', message)
+    message = USERNAME_RE.sub('', message)
+    message = ENTITY_RE.sub('', message).lower()
 
-    words = set(wordpunct_tokenize(msg)).difference(stopwords)
+    words = set(wordpunct_tokenize(message)).difference(STOPWORDS)
     words = filter(lambda w: w.isalpha() and len(w) > 1, words)
 
-    return dict((lemmatizer.lemmatize(w), True) for w in words)
-
-
-if __name__ == '__main__':
-    pass
+    return dict((WordNetLemmatizer().lemmatize(w), True) for w in words)

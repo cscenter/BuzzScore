@@ -9,8 +9,8 @@ from itertools import izip
 from contextlib import closing
 
 
-msg_re = re.compile('<div class="tweet-text".*?><div.*?>(.*?)</div></div>')
-lnk_re = re.compile('<div class="w-button-more"><a href="(.*?)">')
+MSG_RE = re.compile('<div class="tweet-text".*?><div.*?>(.*?)</div></div>')
+LNK_RE = re.compile('<div class="w-button-more"><a href="(.*?)">')
 
 
 def get_messages(username, max_number=None, recursive=True):
@@ -20,8 +20,8 @@ def get_messages(username, max_number=None, recursive=True):
     while not max_number or len(messages) < max_number:
         with closing(urlopen(url)) as page:
             html = page.read()
-        messages.extend(msg_re.findall(html))
-        lnk = lnk_re.findall(html)
+        messages.extend(MSG_RE.findall(html))
+        lnk = LNK_RE.findall(html)
         url = lnk[0] if lnk else ''
         if not recursive or not url:
             break

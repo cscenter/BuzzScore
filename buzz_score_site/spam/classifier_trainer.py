@@ -1,13 +1,12 @@
 #! /usr/bin/env python
 # coding: utf8
 
-import os
+import sys
 import json
 import random
 import cPickle
-import itertools
 
-from nltk import classify
+from nltk.classify import accuracy
 from nltk import NaiveBayesClassifier
 
 from feature_extractor import extract_features
@@ -29,23 +28,18 @@ def load_dataset(label, path, shuffle=False):
 
 
 def main():
-    src_dir = '../../datasets/spam_analysis/en/'
-
-    spam = load_dataset('spam', os.path.join(src_dir, 'spam.json'), True)
-    ham = load_dataset('ham', os.path.join(src_dir, 'ham.json'), True)
+    spam = load_dataset('spam', sys.argv[1], True)
+    ham = load_dataset('ham', sys.argv[2], True)
     training_spam = spam[:11500]
     training_ham = ham[:11500]
     test_spam = spam[1000:]
     test_ham = ham[1000:]
 
-    classifier = NaiveBayesClassifier.train(training_ham + training_spam)
+    nbc = NaiveBayesClassifier.train(training_ham + training_spam)
+    cPickle.dump(nbc, sys.stdout)
 
-    with open('classifier_en.pkl', 'wb') as dst:
-        cPickle.dump(classifier, dst)
-
-    print 'Test Spam accuracy: %f' % classify.accuracy(classifier, test_spam)
-    print 'Test Ham accuracy: %f' % classify.accuracy(classifier, test_ham)
-    print classifier.show_most_informative_features(20)
+    sys.stderr.writelines(['Spam accuracy: %f\n' % accuracy(nbc, test_spam),
+                           'Ham accuracy: %f\n' % accuracy(nbc, test_ham)])
 
 
 if __name__ == '__main__':
