@@ -50,7 +50,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Application path defined in order to not have troubles with wrong paths again
-APPLICATION_ROOT = os.path.dirname('__file__')
+APPLICATION_ROOT = os.path.dirname(__file__)
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
