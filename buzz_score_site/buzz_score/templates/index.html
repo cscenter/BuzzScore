@@ -2,7 +2,7 @@
 
 {% block title %} BuzzScore - Welcome {% endblock title %}
 
-{% block content %}
+{% block scripts %}
     <script src="{{ STATIC_URL }}content/js/spin.min.js"></script>
     <script src="{{ STATIC_URL }}content/js/jquery.spin.js"></script>
     <script src="{{ STATIC_URL }}content/js/spinner_scripts.js"></script>
@@ -11,6 +11,10 @@
             hideSpinner();
         })
     </script>
+{% endblock %}
+
+{% block content %}
+
 
     <div class="col-md-12">
         <h2>Welcome to BuzzScore!</h2>
@@ -23,16 +27,18 @@
             </p>
             <p>
                 <label for="id_search_language_0">Search language:</label>
-            <ul class="list-unstyled">
-                <li>
-                    <label for="id_search_language_0">
-                        <input id="id_search_language_0" name="search_language" type="radio" value="en" checked/> en</label>
-                </li>
-                <li>
-                    <label for="id_search_language_1">
-                        <input id="id_search_language_1" name="search_language" type="radio" value="ru" /> ru</label>
-                </li>
-            </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <label for="id_search_language_0">
+                        <input id="id_search_language_0"
+                               name="search_language" type="radio" value="en" checked/> en</label>
+                    </li>
+                    <li>
+                        <label for="id_search_language_1">
+                        <input id="id_search_language_1"
+                               name="search_language" type="radio" value="ru" /> ru</label>
+                    </li>
+                </ul>
             </p>
         </form>
     </div>

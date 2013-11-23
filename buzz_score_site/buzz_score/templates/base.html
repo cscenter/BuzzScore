@@ -4,12 +4,14 @@
     <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}content/css/base.css" rel="stylesheet" media="screen">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
+
     <title>{% block title %}BuzzScore - Index{% endblock %}</title>
 </head>
 
 <body>
-    <script src="https://code.jquery.com/jquery.js"></script>
-
     <div id="header">
     </div>
     <div id="wrap">
@@ -28,7 +30,5 @@
 
     {% block scripts %}
     {% endblock %}
-
-    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

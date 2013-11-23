@@ -1,7 +1,10 @@
 from django.shortcuts import render
+import logging
+import traceback
 
 from forms import EmotionalEvaluationForm
-from twitter.TweetDownloader import TweetDownloader, TweetChunkIterator
+from twitter.tweet_downloader import TweetChunkIterator
+from twitter.tweet_downloader import download_tweets
 
 from functools import partial
 from itertools import ifilterfalse
@@ -9,7 +12,7 @@ from spam.spam_classifier import is_spam
 
 
 # Later will be replaced with calls to memcached
-storage = {}
+STORAGE = {}
 
 ITEMS_PER_PAGE = 20
 #Sessions expire in 5 minutes
@@ -28,7 +31,7 @@ def tweets_ajax(request):
         return render(request, 'index.html', {'form': form})
     session_id = request.session.session_key
     try:
-        downloaded_tweets = storage[session_id]
+        downloaded_tweets = STORAGE[session_id]
         items = downloaded_tweets.get_chunk()
         return render(request, 'tweets_page.html', {'tweets': items,
                                                     'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
@@ -43,26 +46,39 @@ def tweets(request):
         post = form.cleaned_data
         query = post['search_query']
         language = post['search_language']
-        downloaded_tweets = TweetDownloader.download_tweets(query, language)
+        downloaded_tweets = download_tweets(query, language)
         downloaded_tweets = ifilterfalse(partial(is_spam, lang=language), downloaded_tweets)
+
         try:
             session_id = request.session.session_key
-            storage[session_id] = TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE)
-            items = storage[session_id].get_chunk()
+            try:
+                STORAGE[session_id] = TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE)
+            except KeyError:
+                logging.error("User with session_id %s has no stored tweets", session_id)
+                return user_environment_error(request)
+            items = STORAGE[session_id].get_chunk()
             return render(request, 'tweets_index.html', {'tweets': items,
                                                          'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
-        except KeyError:
-            return cookies_and_something_else_error(request)
-        except Exception:
-            return cookies_and_something_else_error(request, additional_stuff_to_turn_on='and javascript')
+
+        except Exception as e:
+            logging.exception("Unknown exception %s", e.message)
+            logging.exception("Stack trace: %s", traceback.format_exc())
+            return unknown_error(request)
     else:
         return render(request, 'index.html', {'form': form})
 
 
 def csrf_failure(request, reason):
-    return cookies_and_something_else_error(request)
+    return user_environment_error(request)
 
 
-def cookies_and_something_else_error(request, additional_stuff_to_turn_on=''):
+def user_environment_error(request):
     return render(request, 'error.html',
-                  {'error_text': 'You need cookies %s turned on to use our awesome site!' % additional_stuff_to_turn_on})
+                  {'error_text': 'You need cookies and javascript turned on to use our awesome site!'})
+
+
+def unknown_error(request):
+    return render(request, 'error.html',
+                  {'error_text': "We have no idea what is wrong, "
+                                 "but it has probably been fixed by the time you have read this pointless message,"
+                                 " why don't you try and start from the beginning?"})
