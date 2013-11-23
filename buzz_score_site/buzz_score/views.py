@@ -2,7 +2,6 @@ from django.shortcuts import render
 
 from forms import EmotionalEvaluationForm
 from twitter.TweetDownloader import TweetDownloader, TweetChunkIterator
-from models import Tweet
 
 from functools import partial
 from itertools import ifilterfalse
@@ -30,7 +29,7 @@ def tweets_ajax(request):
     session_id = request.session.session_key
     try:
         downloaded_tweets = storage[session_id]
-        items = Tweet.construct_tweet_collection(downloaded_tweets.get_chunk())
+        items = downloaded_tweets.get_chunk()
         return render(request, 'tweets_page.html', {'tweets': items,
                                                     'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
     except KeyError:
@@ -40,7 +39,6 @@ def tweets_ajax(request):
 
 def tweets(request):
     form = EmotionalEvaluationForm(request.POST)
-    print(hasattr(form, 'is_valid'))
     if form.is_valid():
         post = form.cleaned_data
         query = post['search_query']
@@ -50,7 +48,7 @@ def tweets(request):
         try:
             session_id = request.session.session_key
             storage[session_id] = TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE)
-            items = Tweet.construct_tweet_collection(storage[session_id].get_chunk())
+            items = storage[session_id].get_chunk()
             return render(request, 'tweets_index.html', {'tweets': items,
                                                          'ITEMS_PER_PAGE': ITEMS_PER_PAGE})
         except KeyError:

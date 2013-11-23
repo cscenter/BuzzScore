@@ -1,4 +1,5 @@
+{% load display_tweet %}
 {% for tweet in tweets %}
-    {{ tweet.as_html | safe }}
+    {% display_tweet %}
 {% endfor %}
 <a id='more-link' href='/tweets_ajax/'>more</a>
