@@ -13,5 +13,5 @@ with open(os.path.join(root, 'spam/classifier_en.pkl'), 'rb') as src:
 
 def is_spam(tweet, lang):
     if lang != 'en':
-        return tweet
+        return False
     return 'spam' == classifier_en.classify(extract_features(tweet['text']))
