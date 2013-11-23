@@ -10,7 +10,9 @@ BASE_DIR = "../../data_set/sentiment_analysis/en/rt-polaritydata"
 
 
 def go(sentences):
-
+    """ Give sentences, sentences is list
+        Return list of pairs: (sentence, label)
+    """
     classifier = joblib.load(MODEL_PATH)
     dv = joblib.load(VECTORIZER_PATH)
     X = dv.transform(sentences)
