@@ -14,11 +14,17 @@
                 displaySpinner();
                 var link = $(this);
                 var url = getUrl(link);
-                $.get(url, null, function (html) {
-                    hideSpinner();
-                    link.before(html);
-                    link.remove();
-                });
+                $.ajax(url)
+                    .success(function(html) {
+                        link.before(html);
+                    })
+                    .error(function() {
+                        link.before($("<div>We're really sorry, but somthing seems to have broken</div>"))
+                    })
+                    .complete(function() {
+                        hideSpinner();
+                        link.remove();
+                    });
                 return false;
             });
         });
