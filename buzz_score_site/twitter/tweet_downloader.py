@@ -56,10 +56,9 @@ def download_tweets_to_file(search_string, language, count, filename):
     downloaded_tweets = download_tweets(search_string, language)
     tweets_to_dump = itertools.islice(downloaded_tweets, count)
     with codecs.open(filename, mode='w', encoding='utf-8') as f:
-        for tweet in tweets_to_dump:
-            f.write(json.dumps(tweet, sort_keys=True,
+            f.write(json.dumps(list(tweets_to_dump), sort_keys=True,
                                indent=4, separators=(',', ': ')))
-            f.write("\n")
+
 
 
 class TweetChunkIterator(object):
