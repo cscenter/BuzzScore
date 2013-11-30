@@ -50,13 +50,16 @@ def add_sentiment_to_list(items):
         items[i]['sentiment'] = 'positive' if sentiment[i] > 0 else 'negative'
     return items
 
+
 def download_tweets_to_file(search_string, language, count, filename):
     """Downloads <count> tweets and dumps them to <filename> file"""
     downloaded_tweets = download_tweets(search_string, language)
     tweets_to_dump = itertools.islice(downloaded_tweets, count)
     with codecs.open(filename, mode='w', encoding='utf-8') as f:
         for tweet in tweets_to_dump:
-            f.write(json.dumps(tweet))
+            f.write(json.dumps(tweet, sort_keys=True,
+                               indent=4, separators=(',', ': ')))
+            f.write("\n")
 
 
 class TweetChunkIterator(object):
