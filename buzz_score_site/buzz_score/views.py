@@ -5,12 +5,13 @@ import traceback
 from forms import EmotionalEvaluationForm
 from twitter.tweet_downloader import TweetChunkIterator
 from twitter.tweet_downloader import download_tweets
+from twitter.tweet_downloader import add_sentiment_to_list
 
 from functools import partial
 from itertools import ifilterfalse
 from spam.spam_classifier import is_spam
 
-
+from sentiment.analysis import go
 
 # Later will be replaced with calls to memcached
 STORAGE = {}
@@ -34,6 +35,7 @@ def tweets_ajax(request):
     try:
         downloaded_tweets = STORAGE[session_id]
         items = downloaded_tweets.get_chunk()
+        items = add_sentiment_to_list(items)
         return render(request, 'tweets_page.html', {'tweets': items})
     except KeyError:
         form = EmotionalEvaluationForm()
@@ -47,7 +49,6 @@ def tweets(request):
         query = post['search_query']
         language = post['search_language']
         downloaded_tweets = download_tweets(query, language)
-        print(downloaded_tweets)
         downloaded_tweets = ifilterfalse(partial(is_spam, lang=language), downloaded_tweets)
         try:
             session_id = request.session.session_key
@@ -57,6 +58,7 @@ def tweets(request):
                 logging.error("User with session_id %s has no stored tweets", session_id)
                 return user_environment_error(request)
             items = STORAGE[session_id].get_chunk()
+            items = add_sentiment_to_list(items)
             return render(request, 'tweets_index.html', {'tweets': items})
 
         except Exception as e:

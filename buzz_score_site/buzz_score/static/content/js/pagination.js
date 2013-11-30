@@ -17,6 +17,7 @@
                 $.ajax(url)
                     .success(function(html) {
                         link.before(html);
+                        handleTweetsDisplay();
                     })
                     .error(function() {
                         link.before($("<div>We're really sorry, but something seems to have broken</div>"))

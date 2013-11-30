@@ -9,6 +9,8 @@ import json
 
 import TwitterSearch
 
+from sentiment.analysis import go
+
 
 CONSUMER_KEY = "qaxwA1MNvx2ilaBQaql4g"
 CONSUMER_SECRET = "ok5l42lywxjEeh460xTy8EMUUQzMkVBhorITv82Yc"
@@ -41,6 +43,12 @@ def download_tweets(search_string, language):
         logging.exception("Stack trace: %s", traceback.format_exc())
         print e
 
+
+def add_sentiment_to_list(items):
+    sentiment = go([tweet['text'] for tweet in items])
+    for i in range(len(sentiment)):
+        items[i]['sentiment'] = 'positive' if sentiment[i] > 0 else 'negative'
+    return items
 
 def download_tweets_to_file(search_string, language, count, filename):
     """Downloads <count> tweets and dumps them to <filename> file"""
