@@ -11,8 +11,6 @@ from functools import partial
 from itertools import ifilterfalse
 from spam.spam_classifier import is_spam
 
-from sentiment.analysis import go
-
 # Later will be replaced with calls to memcached
 STORAGE = {}
 
