@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
-import buzz_score_site.settings as settings
+from django.conf import settings
 
 BASE_DIR_EN = os.path.join(settings.DATASET_ROOT, "sentiment_analysis",
                            "en", "rt-polaritydata")
