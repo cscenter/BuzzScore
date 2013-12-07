@@ -33,9 +33,11 @@ def tweets_ajax(request):
         return render(request, 'index.html', {'form': form})
     session_id = request.session.session_key
     try:
-        downloaded_tweets = STORAGE[session_id]
+        user_package = STORAGE[session_id]
+        downloaded_tweets = user_package['it']
+        language = user_package['it']
         items = downloaded_tweets.get_chunk()
-        items = add_sentiment_to_list(items)
+        items = add_sentiment_to_list(items, language)
         return render(request, 'tweets_page.html', {'tweets': items})
     except KeyError:
         form = EmotionalEvaluationForm()
@@ -53,12 +55,14 @@ def tweets(request):
         try:
             session_id = request.session.session_key
             try:
-                STORAGE[session_id] = TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE)
+                STORAGE[session_id] = {'it': TweetChunkIterator(downloaded_tweets, ITEMS_PER_PAGE),
+                                       'lang': language}
             except KeyError:
-                logging.error("User with session_id %s has no stored tweets", session_id)
+                logging.error('User with session_id %s has no stored tweets', session_id)
                 return user_environment_error(request)
-            items = STORAGE[session_id].get_chunk()
-            items = add_sentiment_to_list(items)
+
+            items = STORAGE[session_id]['it'].get_chunk()
+            items = add_sentiment_to_list(items, language)
             return render(request, 'tweets_index.html', {'tweets': items})
 
         except Exception as e:

@@ -44,8 +44,8 @@ def download_tweets(search_string, language):
         print e
 
 
-def add_sentiment_to_list(items):
-    sentiment = go([tweet['text'] for tweet in items])
+def add_sentiment_to_list(items, language):
+    sentiment = go([tweet['text'] for tweet in items], language)
     for i in range(len(sentiment)):
         items[i]['sentiment'] = 'positive' if sentiment[i] > 0 else 'negative'
     return items
