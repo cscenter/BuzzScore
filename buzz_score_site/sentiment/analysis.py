@@ -34,6 +34,13 @@ def go(sentences, language="en"):
         raise Exception("Undefined language")
     X = dv.transform(sentences)  # matrix of features
     labels = list(classifier.predict(X))
+    emoticons = {":(": -1, "=(": -1, "((": -1, ":'(": -1,
+                 ":)": 1, "=)": 1, "))": 1, ";)": 1}
+    for sentence, i in zip(sentences, range(len(sentences))):
+        for emoticon, label in emoticons.iteritems():
+            if emoticon in sentence:
+                labels[i] = label
+                continue
     return map(int, labels)
 
 
