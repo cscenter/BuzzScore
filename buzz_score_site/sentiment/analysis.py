@@ -31,7 +31,7 @@ def go(sentences, language="en"):
         classifier = joblib.load(MODEL_PATH_RU)
         dv = joblib.load(VECTORIZER_PATH_RU)
     else:
-        return Exception()
+        raise Exception("Undefined language")
     X = dv.transform(sentences)  # matrix of features
     labels = list(classifier.predict(X))
     return map(int, labels)
