@@ -35,7 +35,7 @@ def tweets_ajax(request):
     try:
         user_package = STORAGE[session_id]
         downloaded_tweets = user_package['it']
-        language = user_package['it']
+        language = user_package['lang']
         items = downloaded_tweets.get_chunk()
         items = add_sentiment_to_list(items, language)
         return render(request, 'tweets_page.html', {'tweets': items})
