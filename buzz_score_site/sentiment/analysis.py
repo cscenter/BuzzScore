@@ -20,7 +20,7 @@ VECTORIZER_PATH_RU = os.path.join(settings.CLASSIFIER_ROOT,
                                   "vectorizer_ru.pkl")
 
 
-def go(sentences, language):
+def go(sentences, language="en"):
     """ Give sentences, sentences is list
         Return labels [ints]
     """
