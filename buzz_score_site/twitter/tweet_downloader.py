@@ -41,7 +41,7 @@ def download_tweets(search_string, language):
     except TwitterSearch.TwitterSearchException as e:
         logging.exception("%s: %s", e.code, e.message)
         logging.exception("Stack trace: %s", traceback.format_exc())
-        print e
+        raise e
 
 
 def add_sentiment_to_list(items, language):

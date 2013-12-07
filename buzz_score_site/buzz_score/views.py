@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import logging
 import traceback
+from TwitterSearch import TwitterSearchException
 
 from forms import EmotionalEvaluationForm
 from twitter.tweet_downloader import TweetChunkIterator
@@ -48,7 +49,10 @@ def tweets(request):
         post = form.cleaned_data
         query = post['search_query']
         language = post['search_language']
-        downloaded_tweets = download_tweets(query, language)
+        try:
+            downloaded_tweets = download_tweets(query, language)
+        except TwitterSearchException as e:
+            return heavy_load(request)
         downloaded_tweets = ifilterfalse(partial(is_spam, lang=language), downloaded_tweets)
         try:
             session_id = request.session.session_key
@@ -62,7 +66,6 @@ def tweets(request):
             items = STORAGE[session_id]['it'].get_chunk()
             items = add_sentiment_to_list(items, language)
             return render(request, 'tweets_index.html', {'tweets': items})
-
         except Exception as e:
             logging.exception("Unknown exception %s", e.message)
             logging.exception("Stack trace: %s", traceback.format_exc())
@@ -85,3 +88,8 @@ def unknown_error(request):
                   {'error_text': "We have no idea what is wrong, "
                                  "but it has probably been fixed by the time you have read this pointless message,"
                                  " why don't you try and start from the beginning?"})
+
+def heavy_load(request):
+    return render(request, 'error.html',
+                  {'error_text': "Our service is under heavy load right now, "
+                                 "come some time later, will you?"})
