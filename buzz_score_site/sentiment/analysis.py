@@ -6,8 +6,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
 from django.conf import settings
 
-BASE_DIR = os.path.join(settings.DATASET_ROOT,
-                        "sentiment_analysis/en/rt-polaritydata")
+BASE_DIR = os.path.join(settings.DATASET_ROOT, "sentiment_analysis",
+                        "en", "rt-polaritydata")
 MODEL_PATH = os.path.join(settings.CLASSIFIER_ROOT, "sentiment_classifier.pkl")
 VECTORIZER_PATH = os.path.join(settings.CLASSIFIER_ROOT, "vectorizer.pkl")
 
@@ -17,16 +17,15 @@ def go(sentences):
         Return labels [ints]
     """
     classifier = joblib.load(MODEL_PATH)
-    dv = joblib.load(VECTORIZER_PATH)
-    X = dv.transform(sentences)
+    dv = joblib.load(VECTORIZER_PATH)  # load dictionary
+    X = dv.transform(sentences)  # matrix of features
     labels = list(classifier.predict(X))
     return map(int, labels)
 
 
 def save_trained():
-
-    def set_label(label, N):
-        y = np.empty(N, dtype=np.int8)
+    def set_label(label, n):
+        y = np.empty(n, dtype=np.int8)  # array of labels
         y.fill(label)
         return y
 
@@ -47,7 +46,6 @@ def save_trained():
     joblib.dump(clf, MODEL_PATH)
 
 if __name__ == "__main__":
-
     with open(os.path.join(BASE_DIR, "rt-polarity.pos")) as sentences_file:
         sentences = list(sentences_file)
         res = go(sentences)

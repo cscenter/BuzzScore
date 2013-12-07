@@ -12,15 +12,14 @@ from sklearn.svm import LinearSVC, NuSVC
 
 
 def prepare_dataset(base_dir):
-
     def prepare(path, label):
         X = list(open(path))
         y = np.empty(len(X), dtype=np.int8)
         y.fill(label)
         return X, y
 
-    Xp, yp = prepare(os.path.join(base_dir, "rt-polarity.pos"), 1)
-    Xn, yn = prepare(os.path.join(base_dir, "rt-polarity.neg"), -1)
+    Xp, yp = prepare(os.path.join(base_dir, "rt-polarity.pos"), 1)  # positive
+    Xn, yn = prepare(os.path.join(base_dir, "rt-polarity.neg"), -1)  # negative
     dv = CountVectorizer(analyzer="word", ngram_range=(1, 2), lowercase=False,
                          charset_error="ignore", binary=True, dtype=np.int32)
     X = dv.fit_transform(Xp + Xn)
@@ -28,8 +27,9 @@ def prepare_dataset(base_dir):
     return X, y
 
 if __name__ == "__main__":
-
-    X, y = prepare_dataset("../../datasets/sentiment_analysis/en/rt-polaritydata")
+    X, y = prepare_dataset(
+        os.path.join("..", "..", "datasets", "sentiment_analysis",
+                     "en", "rt-polaritydata"))
     X_train, X_test, y_train, y_test = cross_validation.train_test_split(
         X, y, test_size=.4)
 
