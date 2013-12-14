@@ -44,10 +44,12 @@ def is_connectable(p1, p2):
         p1, p2 = p2, p1
     if p1.POS in ('NOUN', 'NPRO'):
         if p2.POS in ('ADJF', 'ADJS'):
-            return p1.case == p2.case and p1.number == p2.number \
-                   and p1.gender == p2.gender
+            return p1 == KEYWORD_TAG \
+                   or (p1.case == p2.case and p1.number == p2.number \
+                       and p1.gender == p2.gender)
         if p2.POS in ('PRTF', 'PRTS'):
-            return p1.gender == p2.gender and p1.number == p2.number
+            return p1 == KEYWORD_TAG \
+                   or (p1.gender == p2.gender and p1.number == p2.number)
 
     return False
 
@@ -73,6 +75,7 @@ STOPWORDS = [u'и', u'в', u'во', u'что', u'на', u'с', u'со', u'как
              u'до', u'нибудь', u'уж', u'ведь', u'где', u'для', u'чем', u'чтоб',
              u'чего', u'под', u'ж', u'кто', u'потому', u'чтобы', u'куда',
              u'при', u'об', u'после', u'над', u'тот', u'эти', u'про', u'перед'] 
+
 
 def tokenize(text, keyword):
     text = u' '.join(wordpunct_tokenize(text.lower()))
@@ -182,4 +185,4 @@ if __name__ == '__main__':
     keyword = sys.argv[1].decode('utf8')
     main(text, keyword)
     print '\n'.join('(%s: %f)' % (k, v)
-                     for k, v in calc_weights(text, keyword).items())
+                    for k, v in calc_weights(text, keyword).items())
