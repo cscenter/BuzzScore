@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 import pickle
-import itertools
+import random
 import numpy as np
 from pprint import pprint
 from nltk.tokenize import word_tokenize, sent_tokenize
@@ -11,8 +11,8 @@ from sklearn.naive_bayes import MultinomialNB
 from buzz_score_site.settings import DATASET_ROOT
 
 
-path_pos = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'pos')
-path_neg = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'neg')
+path_pos = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'pos_set')
+path_neg = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'neg_set')
 path_X = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'count_vector')
 path_XTF = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'count_vectorTF')
 path_XTFmax_f = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'count_vectorTF')
@@ -24,9 +24,11 @@ path_vocabularyTFNgram = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 
 path_trainedMB = os.path.join(DATASET_ROOT, 'sentiment_analysis', 'ru', 'trainedMB')
 
 
+
+
 def dump_feature_extraction(input_file=None, output_path=None, vocabulary_path=None):
     """
-    Загрузить матрицу частот извлеченных слова из документа, а также инвертированный словарь слов.
+    Загрузить матрицу частот извлеченных слова из документа, и загрузить также инвертированный словарь слов.
     """
     count_vector = TfidfVectorizer(input='content') # max_features - плохой показатель
     # count_vector = CountVectorizer(input=file_in)
@@ -42,7 +44,7 @@ def dump_feature_extraction(input_file=None, output_path=None, vocabulary_path=N
 
 def get_matrix_X(input_file):
     """
-    Получить разряженную матрицу частот слов в виде CSC, полученнцю после обработки feature_extraction.
+    Получить разряженную матрицу частот слов в виде CSC, полученную после обработки feature_extraction.
     """
     with open(input_file, 'rb') as file_in:
         return pickle.load(file_in)
@@ -148,6 +150,7 @@ if __name__ == '__main__':
     # print '_get_intercept', trainedMB._get_intercept()
     # sorted_trainedMB = trainedMB.feature_log_prob_.argsort()
     # sorted_trainedMB = trainedMB.feature_count_.argsort()
-    v = get_vocabulary(path_vocabularyTF)
-    for i in xrange(1, 3110, 100):
-        print v[i], trainedMB.feature_count_[0, i], trainedMB.feature_count_[1, i]
+    print(trainedMB.batch_classify({'К': 1, 'сожалению': 1, 'история': 1,'актеры': 1}))
+    # v = get_vocabulary(path_vocabularyTF)
+    # for i in xrange(1, 10):
+    #     print v[i], trainedMB.feature_count_[0, i], trainedMB.feature_count_[1, i]
